@@ -3,6 +3,7 @@ use std::{
     ops::{Deref, DerefMut},
 };
 
+#[derive(Debug)]
 pub enum Dirty<T> {
     Clean(T),
     Dirty(T),
@@ -19,6 +20,12 @@ impl<T> Dirty<T> {
 
     pub fn is_dirty(&self) -> bool {
         matches!(self, Self::Dirty(..))
+    }
+}
+
+impl<T: Default> Default for Dirty<T> {
+    fn default() -> Self {
+        Self::Clean(T::default())
     }
 }
 
