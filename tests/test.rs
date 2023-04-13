@@ -6,4 +6,7 @@ fn test() {
     assert!(value.is_clean());
     *value += 2;
     assert!(value.is_dirty());
+    assert_eq!(value, Dirty::Dirty(7));
+    value.clear();
+    assert_eq!(value, Dirty::Clean(7));
 }
