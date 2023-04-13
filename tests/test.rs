@@ -9,4 +9,6 @@ fn test() {
     assert_eq!(value, Dirty::Dirty(7));
     value.clear();
     assert_eq!(value, Dirty::Clean(7));
+    println!("{}", *value);
+    assert!(value.is_clean());
 }
