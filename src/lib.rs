@@ -1,26 +1,55 @@
 use std::ops::{Deref, DerefMut};
 
+/// A struct that stores a `T` and marks if the data inside has been modified
 #[derive(Debug, PartialEq, Eq)]
 pub enum Dirty<T> {
+    /// The type that has not been modified, or has had the `Dirty` flag cleared
     Clean(T),
+    /// The type that has been modified
     Dirty(T),
 }
 
 impl<T: Default> Dirty<T> {
+    /// Create a new `Clean` value of `t`.
     pub fn new(t: T) -> Self {
         Self::Clean(t)
     }
 
+    /// Returns a reference to the held value if it is dirty and `None` otherwise.
+    pub fn dirty(&mut self) -> Option<&T> {
+        match self {
+            Self::Clean(..) => None,
+            Self::Dirty(..) => {
+                self.clear();
+                Some(&**self)
+            }
+        }
+    }
+
+    /// Returns a reference to the held value if it is clean and `None` otherwise.
+    pub fn clean(&mut self) -> Option<&T> {
+        match self {
+            Self::Clean(..) => {
+                self.clear();
+                Some(&**self)
+            }
+            Self::Dirty(..) => None,
+        }
+    }
+
+    /// Sets the value to `Clean`.
     pub fn clear(&mut self) {
         if let Self::Dirty(t) = self {
             *self = Self::Clean(std::mem::take(t));
         }
     }
 
+    /// Returns if the value is clean.
     pub fn is_clean(&self) -> bool {
         matches!(self, Self::Clean(..))
     }
 
+    /// Returns if the value is dirty.
     pub fn is_dirty(&self) -> bool {
         matches!(self, Self::Dirty(..))
     }
@@ -50,6 +79,7 @@ impl<T: Default> DerefMut for Dirty<T> {
         if let Self::Dirty(t) = self {
             t
         } else {
+            // self is set to `Dirty` if it's not already
             unreachable!()
         }
     }
