@@ -1,11 +1,12 @@
+#![doc = include_str!("../README.md")]
 use std::ops::{Deref, DerefMut};
 
-/// A struct that stores a `T` and marks if the data inside has been modified
+/// A struct that stores a `T` and marks if the data inside has been modified.
 #[derive(Debug, PartialEq, Eq)]
 pub enum Dirty<T> {
-    /// The type that has not been modified, or has had the `Dirty` flag cleared
+    /// The type that has not been modified, or has had the `Dirty` flag cleared.
     Clean(T),
-    /// The type that has been modified
+    /// The type that has been modified.
     Dirty(T),
 }
 

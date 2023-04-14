@@ -1,6 +1,6 @@
 # `dirtytype`
 
-This is a library for marking fields as dirty, ie marking them when they are changed. It is primarily concerned with the `Dirty` struct.
+This is a library for marking fields as dirty, ie marking them when they are changed. It is primarily concerned with the `Dirty` enum.
 
 ## Example usage
 
