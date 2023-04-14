@@ -36,8 +36,7 @@ impl<T> Deref for Dirty<T> {
     type Target = T;
     fn deref(&self) -> &Self::Target {
         match self {
-            Self::Clean(t) => t,
-            Self::Dirty(t) => t,
+            Self::Clean(t) | Self::Dirty(t) => t,
         }
     }
 }
