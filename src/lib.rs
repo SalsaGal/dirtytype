@@ -16,7 +16,7 @@ impl<T: Default> Dirty<T> {
         Self::Clean(t)
     }
 
-    /// Returns a reference to the held value if it is dirty and `None` otherwise.
+    /// Returns a reference to the held value if it is dirty and `None` otherwise. Calling this cleans the value as it is interpreted as handling dirtiness.
     pub fn dirty(&mut self) -> Option<&T> {
         match self {
             Self::Clean(..) => None,
@@ -30,10 +30,7 @@ impl<T: Default> Dirty<T> {
     /// Returns a reference to the held value if it is clean and `None` otherwise.
     pub fn clean(&mut self) -> Option<&T> {
         match self {
-            Self::Clean(..) => {
-                self.clear();
-                Some(&**self)
-            }
+            Self::Clean(..) => Some(&**self),
             Self::Dirty(..) => None,
         }
     }
