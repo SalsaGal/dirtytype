@@ -1,7 +1,4 @@
-use std::{
-    mem::MaybeUninit,
-    ops::{Deref, DerefMut},
-};
+use std::ops::{Deref, DerefMut};
 
 #[derive(Debug, PartialEq, Eq)]
 pub enum Dirty<T> {
@@ -9,14 +6,14 @@ pub enum Dirty<T> {
     Dirty(T),
 }
 
-impl<T> Dirty<T> {
+impl<T: Default> Dirty<T> {
     pub fn new(t: T) -> Self {
         Self::Clean(t)
     }
 
     pub fn clear(&mut self) {
         if let Self::Dirty(t) = self {
-            *self = Self::Clean(replace_zero(t))
+            *self = Self::Clean(std::mem::take(t));
         }
     }
 
@@ -45,10 +42,10 @@ impl<T> Deref for Dirty<T> {
     }
 }
 
-impl<T> DerefMut for Dirty<T> {
+impl<T: Default> DerefMut for Dirty<T> {
     fn deref_mut(&mut self) -> &mut Self::Target {
         if let Self::Clean(t) = self {
-            *self = Self::Dirty(replace_zero(t));
+            *self = Self::Dirty(std::mem::take(t));
         }
 
         if let Self::Dirty(t) = self {
@@ -57,11 +54,4 @@ impl<T> DerefMut for Dirty<T> {
             unreachable!()
         }
     }
-}
-
-fn replace_zero<T>(t: &mut T) -> T {
-    // SAFETY: This is safe since the zero value is dropped immediately
-    // after this block is over.
-    let zeroed = unsafe { MaybeUninit::zeroed().assume_init() };
-    std::mem::replace(t, zeroed)
 }
