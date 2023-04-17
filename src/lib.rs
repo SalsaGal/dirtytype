@@ -49,6 +49,14 @@ impl<T: Default> Dirty<T> {
         }
     }
 
+    /// Sets the value to the opposite of its current value.
+    pub fn invert(&mut self) {
+        match self {
+            Self::Clean(..) => self.mark(),
+            Self::Dirty(..) => self.clear(),
+        }
+    }
+
     /// Returns if the value is clean.
     pub fn is_clean(&self) -> bool {
         matches!(self, Self::Clean(..))
