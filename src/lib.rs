@@ -42,6 +42,13 @@ impl<T: Default> Dirty<T> {
         }
     }
 
+    /// Sets the value to `Dirty`.
+    pub fn mark(&mut self) {
+        if let Self::Clean(t) = self {
+            *self = Self::Dirty(std::mem::take(t));
+        }
+    }
+
     /// Returns if the value is clean.
     pub fn is_clean(&self) -> bool {
         matches!(self, Self::Clean(..))
