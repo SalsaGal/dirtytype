@@ -2,7 +2,7 @@
 use std::ops::{Deref, DerefMut};
 
 /// A struct that stores a `T` and marks if the data inside has been modified.
-#[derive(Debug, PartialEq, Eq)]
+#[derive(Debug, PartialEq, Eq, PartialOrd, Ord)]
 pub enum Dirty<T> {
     /// The type that has not been modified, or has had the `Dirty` flag cleared.
     Clean(T),
