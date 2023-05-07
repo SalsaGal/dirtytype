@@ -2,9 +2,11 @@
 use std::ops::{Deref, DerefMut};
 
 /// A struct that stores a `T` and marks if the data inside has been modified.
-#[derive(Debug, PartialEq, Eq, PartialOrd, Ord)]
+#[derive(Clone, Copy, Debug, PartialEq, Eq, PartialOrd, Ord)]
 pub struct Dirty<T> {
+    /// The data stored in the type. Typically accessed by dereferencing, but can be modified here to avoid being marked as dirty.
     pub data: T,
+    /// Whether the data is dirty or not.
     pub dirty: bool,
 }
 
