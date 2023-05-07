@@ -10,7 +10,7 @@ pub struct Dirty<T> {
     pub dirty: bool,
 }
 
-impl<T: Default> Dirty<T> {
+impl<T> Dirty<T> {
     /// Create a new `Clean` value of `t`.
     pub fn new(data: T) -> Self {
         Self { data, dirty: false }
@@ -49,7 +49,7 @@ impl<T> Deref for Dirty<T> {
     }
 }
 
-impl<T: Default> DerefMut for Dirty<T> {
+impl<T> DerefMut for Dirty<T> {
     fn deref_mut(&mut self) -> &mut Self::Target {
         self.dirty = true;
         &mut self.data
