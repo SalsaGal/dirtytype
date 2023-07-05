@@ -1,6 +1,27 @@
 use dirtytype::Dirty;
 
 #[test]
+fn clean_test() {
+    let mut values = vec![];
+    let mut add = Dirty::new(5);
+    let mut add_func = |val: &mut i32| values.push(*val);
+
+    add.clean(&mut add_func);
+    *add = 3;
+    add.clean(&mut add_func);
+    add.clean(&mut add_func);
+    *add = 6;
+    add.clean(&mut add_func);
+    add.clean(&mut add_func);
+
+    dbg!(&values);
+    assert!(&[3, 6]
+        .into_iter()
+        .zip(values.into_iter())
+        .all(|(a, b)| a == b))
+}
+
+#[test]
 fn test() {
     let mut value = Dirty::new(5);
     assert!(!value.dirty);

@@ -18,11 +18,9 @@ struct BufferData<T> {
     buffer: Buffer,
 }
 
-impl<T: Default> BufferData<T> {
+impl<T: Default + Clone> BufferData<T> {
     fn update(&mut self) {
-        if let Some(value) = self.data.dirty() {
-            self.buffer.update(value);
-        }
+        self.data.clean(|value| self.buffer.update(value.clone()));
     }
 }
 ```

@@ -16,6 +16,13 @@ impl<T> Dirty<T> {
         Self { data, dirty: false }
     }
 
+    pub fn clean(&mut self, mut f: impl FnMut(&mut T)) {
+        if self.dirty {
+            self.dirty = false;
+            f(&mut self.data);
+        }
+    }
+
     /// Returns a reference to the held value if it is dirty and `None` otherwise.
     pub fn as_dirty(&self) -> Option<&T> {
         if self.dirty {
