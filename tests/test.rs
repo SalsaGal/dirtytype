@@ -18,7 +18,7 @@ fn clean_test() {
     assert!(&[3, 6]
         .into_iter()
         .zip(values.into_iter())
-        .all(|(a, b)| a == b))
+        .all(|(a, b)| a == b));
 }
 
 #[test]
