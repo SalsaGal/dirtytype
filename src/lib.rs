@@ -16,10 +16,9 @@ impl<T> Dirty<T> {
         Self { data, dirty: false }
     }
 
-    /// Returns a reference to the held value if it is dirty and `None` otherwise. Calling this cleans the value as it is interpreted as handling dirtiness.
-    pub fn dirty(&mut self) -> Option<&T> {
+    /// Returns a reference to the held value if it is dirty and `None` otherwise.
+    pub fn as_dirty(&self) -> Option<&T> {
         if self.dirty {
-            self.dirty = false;
             Some(&self.data)
         } else {
             None
@@ -27,11 +26,29 @@ impl<T> Dirty<T> {
     }
 
     /// Returns a reference to the held value if it is clean and `None` otherwise.
-    pub fn clean(&mut self) -> Option<&T> {
+    pub fn as_clean(&self) -> Option<&T> {
         if self.dirty {
             None
         } else {
             Some(&self.data)
+        }
+    }
+
+    /// Returns a mutable reference to the held value if it is dirty and `None` otherwise.
+    pub fn as_dirty_mut(&mut self) -> Option<&mut T> {
+        if self.dirty {
+            Some(&mut self.data)
+        } else {
+            None
+        }
+    }
+
+    /// Returns a mutable reference to the held value if it is clean and `None` otherwise.
+    pub fn as_clean_mut(&mut self) -> Option<&mut T> {
+        if self.dirty {
+            None
+        } else {
+            Some(&mut self.data)
         }
     }
 }
