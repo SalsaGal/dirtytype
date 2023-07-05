@@ -80,3 +80,9 @@ impl<T> DerefMut for Dirty<T> {
         &mut self.data
     }
 }
+
+impl<T> From<T> for Dirty<T> {
+    fn from(value: T) -> Self {
+        Self::new(value)
+    }
+}
