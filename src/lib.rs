@@ -16,6 +16,7 @@ impl<T> Dirty<T> {
         Self { data, dirty: false }
     }
 
+    /// Calls the closure if the data is dirty, and then marks the data as clean.
     pub fn clean(&mut self, mut f: impl FnMut(&mut T)) {
         if self.dirty {
             self.dirty = false;
