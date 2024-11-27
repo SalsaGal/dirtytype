@@ -1,5 +1,7 @@
 # `dirtytype`
 
+**THIS REPO IS DEPRECATED** Refer to the [SourceHut repo](https://git.sr.ht/~salsagal/dirtytype) for latest updates.
+
 This is a library for marking fields as dirty, ie marking them when they are changed.
 
 ## Example usage
